@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-def matrix_transpose(matrix):
+def matrix_shape(matrix):
     return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
 
 mat1 = [[1, 2], [3, 4]]
