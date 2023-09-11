@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
+
 def matrix_shape(matrix):
-    return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+    shape = []
+    while isinstance(matrix, list):
+        shape.append(len(matrix))
+        matrix = matrix[0] if matrix else None
+    return shape
 
 mat1 = [[1, 2], [3, 4]]
 print(matrix_shape(mat1))
