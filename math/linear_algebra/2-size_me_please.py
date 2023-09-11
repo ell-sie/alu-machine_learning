@@ -2,8 +2,6 @@
 def matrix_transpose(matrix):
     return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
 
-from 2-size_me_please import matrix_shape
-
 mat1 = [[1, 2], [3, 4]]
 print(matrix_shape(mat1))
 
