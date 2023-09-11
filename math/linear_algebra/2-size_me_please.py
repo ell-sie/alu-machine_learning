@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-def matrix_shape(matrix):
-    shape = []
-    while isinstance(matrix, list):
-        shape.append(len(matrix))
-        matrix = matrix[0]
-    return shape
+def matrix_transpose(matrix):
+    return [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
 
 from 2-size_me_please import matrix_shape
 
