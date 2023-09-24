@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
+"""Translate mathematical operations into code"""
+
 def summation_i_squared(n):
-    # Check if n is a valid integer and greater than or equal to 1
+    # Check if n is a valid integer and
+    # greater than or equal to 1
     if not isinstance(n, int) or n < 1:
         return None
 
-    # Base case: When n is 1, return 1 (1^2)
-    if n == 1:
-        return 1
+    # Initialize the sum to 0
+    total = 0
 
-    # Recursive case: Calculate n^2 and add it to the sum of squares of previous numbers
-    return n**2 + summation_i_squared(n - 1)
+    # Iterate from 1 to n, adding the square of each number
+    # to the total
+    for i in range(1, n + 1):
+        total += i**2
+
+    return total
