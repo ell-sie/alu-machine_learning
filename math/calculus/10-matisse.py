@@ -15,4 +15,3 @@ def poly_derivative(poly):
     if all(c == 0 for c in derivative):
         return [0]
     return derivative
-    
