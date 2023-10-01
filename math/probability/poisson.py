@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """A class Poisson representing a Poisson Distribution.
-The Poisson distribution is a probability distribution that describes 
+The Poisson distribution is a probability distribution that describes
 the number of events that occur within a fixed interval of time or space.
-e.g. number of emails received in an hour, 
-the number of accidents at an intersection in a day, or 
+e.g. number of emails received in an hour,
+the number of accidents at an intersection in a day, or
 the number of phone calls to a customer service center in a minute."""
 
 
