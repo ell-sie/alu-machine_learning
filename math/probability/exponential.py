@@ -2,8 +2,10 @@
 """A class Exponential representing an Exponential Distribution.
 The exponential distribution is a continuous probability distribution that
 models the time between events in a Poisson process.
-It is commonly used to describe the distribution of waiting times or inter-arrival
-times in various real-world scenarios, such as the time between arrivals of customers
+It is commonly used to describe the distribution of waiting times
+or inter-arrival
+times in various real-world scenarios, such as the time
+between arrivals of customers
 at a service center, the time between radioactive decay events,
 or the lifespan of electronic components."""
 
