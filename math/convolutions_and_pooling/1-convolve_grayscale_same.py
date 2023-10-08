@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 import numpy as np
 """
-Perform a same convolution on grayscale images.
+This module defines a function for performing
+a same convolution on grayscale images"
 """
 
 
 def convolve_grayscale_same(images, kernel):
     """
+    Perform a same convolution on grayscale images.
+
     Args:
         images (numpy.ndarray): Grayscale images of shape (m, h, w).
         kernel (numpy.ndarray): Convolution kernel of shape (kh, kw).
