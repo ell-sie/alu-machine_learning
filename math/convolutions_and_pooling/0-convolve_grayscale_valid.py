@@ -1,4 +1,22 @@
 #!/usr/bin/env python3
+"""
+Convolution on grayscale images using a valid convolution.
+
+This script defines a function `convolve_grayscale_valid` that performs a valid
+convolution on grayscale images using a given kernel.
+
+Args:
+    images (numpy.ndarray): Grayscale images of shape (m, h, w).
+    kernel (numpy.ndarray): Convolution kernel of shape (kh, kw).
+
+Returns:
+    numpy.ndarray: Convolved images with shape (m, output_h, output_w).
+
+- `images` is a numpy array containing multiple grayscale images.
+- `kernel` is a numpy array containing the kernel for the convolution.
+- The function calculates the output size and performs the convolution operation.
+- The result is a numpy array containing the convolved images.
+"""
 import numpy as np
 
 def convolve_grayscale_valid(images, kernel):
@@ -6,7 +24,7 @@ def convolve_grayscale_valid(images, kernel):
     kh, kw = kernel.shape
     output_h = h - kh + 1
     output_w = w - kw + 1
-    output = np.zeros((m, output_h, output_w), dtype=np.int32)
+    output = np.zeros((m, output_h, output_w))
 
     for i in range(output_h):
         for j in range(output_w):
