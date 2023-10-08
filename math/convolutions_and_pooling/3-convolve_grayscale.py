@@ -1,58 +1,45 @@
 #!/usr/bin/env python3
-import numpy as np
+"""
+Defines a function that performs convolution
+on a grayscale image with given padding and stride
+"""
 
-def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
-    """
-    Perform a convolution on grayscale images with optional padding and stride.
-
-    Args:
-        images (numpy.ndarray): Grayscale images of shape (m, h, w).
-        kernel (numpy.ndarray): Convolution kernel of shape (kh, kw).
-        padding (str or tuple): Padding, 'same', 'valid', or (ph, pw).
-        stride (tuple): Stride as (sh, sw).
-
-    Returns:
-        numpy.ndarray: Convolved images with shape (m, output_h, output_w).
-    """
-    m, h, w = images.shape
-    kh, kw = kernel.shape
-#!/usr/bin/env python3
-"""This module defines a function for performing
-strided convolution on grayscale images."""
 
 import numpy as np
 
 
 def convolve_grayscale(images, kernel, padding='same', stride=(1, 1)):
-    """ Convolve with padding and stride.
-
-    Args:
-        images (_type_): _description_
-        kernel (_type_): _description_
-        padding (str, optional): _description_. Defaults to 'same'.
-        stride (tuple, optional): _description_. Defaults to (1, 1).
-
-    Returns:
-        _type_: _description_
     """
-    kh, kw = kernel.shape
-    m, hm, wm = images.shape
+    Performs a convolution on grayscale images with given padding and stride
+    returns:
+        numpy.ndarray contained convolved images
+    """
+    m = images.shape[0]
+    height = images.shape[1]
+    width = images.shape[2]
+    kh = kernel.shape[0]
+    kw = kernel.shape[1]
     sh, sw = stride
-    if padding == 'same':
-        ph = int(((hm - 1) * sh + kh - hm) / 2) + 1
-        pw = int(((wm - 1) * sw + kw - wm) / 2) + 1
-    elif padding == 'valid':
+    if padding is 'same':
+        ph = ((((height - 1) * sh) + kh - height) // 2) + 1
+        pw = ((((width - 1) * sw) + kw - width) // 2) + 1
+    elif padding is 'valid':
         ph = 0
         pw = 0
     else:
         ph, pw = padding
-    padded = np.pad(images, ((0, 0), (ph, ph), (pw, pw)), 'constant')
-    ch = int((hm + 2 * ph - kh) / sh) + 1
-    cw = int((wm + 2 * pw - kw) / sw) + 1
+    images = np.pad(images, ((0, 0), (ph, ph), (pw, pw)),
+                    'constant', constant_values=0)
+    ch = ((height + (2 * ph) - kh) // sh) + 1
+    cw = ((width + (2 * pw) - kw) // sw) + 1
     convoluted = np.zeros((m, ch, cw))
-    for h in range(ch):
-        for w in range(cw):
-            square = padded[:, h * sh: h * sh + kh, w * sw: w * sw + kw]
-            insert = np.sum(square * kernel, axis=1).sum(axis=1)
-            convoluted[:, h, w] = insert
+    i = 0
+    for h in range(0, (height + (2 * ph) - kh + 1), sh):
+        j = 0
+        for w in range(0, (width + (2 * pw) - kw + 1), sw):
+            output = np.sum(images[:, h: h + kh, w: w + kw] * kernel,
+                            axis=1).sum(axis=1)
+            convoluted[:, i, j] = output
+            j += 1
+        i += 1
     return convoluted
