@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 import numpy as np
-"""
-This module defines a function for performing
-a same convolution on grayscale images"
-"""
+"""This module defines a function for performing
+a same convolution on grayscale images"""
 
 
 def convolve_grayscale_same(images, kernel):
