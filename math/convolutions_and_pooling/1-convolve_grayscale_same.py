@@ -21,6 +21,7 @@ def convolve_grayscale_same(images, kernel):
     # Padding images with zeros
     images_padded = np.pad(images, ((0, 0), (pad_h, pad_h),
                                     (pad_w, pad_w)), mode='constant')
+    # Initialize the output array
     output = np.zeros((m, h, w))
 
     for i in range(h):
