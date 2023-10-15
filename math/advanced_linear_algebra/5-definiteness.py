@@ -58,5 +58,4 @@ def definiteness(matrix):
         else:
             return "Negative definite"
     else:
-        return "Indefinite"
-    
+        return "Indefinite" 
