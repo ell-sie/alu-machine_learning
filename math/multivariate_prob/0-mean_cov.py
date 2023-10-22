@@ -16,8 +16,8 @@ def mean_cov(X):
     Returns:
         mean (numpy.ndarray): A 2D numpy array of shape (1, d)
         containing the mean of the data set.
-        cov (numpy.ndarray): A 2D numpy array of shape (d, d) containing the covariance
-        matrix of the data set.
+        cov (numpy.ndarray): A 2D numpy array of shape (d, d)
+        containing the covariance matrix of the data set.
 
     Raises:
         TypeError: If X is not a 2D numpy array.
