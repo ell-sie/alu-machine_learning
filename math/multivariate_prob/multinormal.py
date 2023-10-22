@@ -32,7 +32,7 @@ def __init__(self, data):
         self.mean = mean
         self.cov = cov
 
-    def pdf(self, x):
+def pdf(self, x):
         """
         Calculate the Probability Density Function (PDF) at a data point.
 
