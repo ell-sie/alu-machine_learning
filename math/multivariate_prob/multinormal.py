@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-        Initialize the MultiNormal class with data to calculate mean and covariance.
+        Initialize the MultiNormal class with data
+        to calculate mean and covariance.
 
         Args:
             data (numpy.ndarray): A 2D numpy array of shape
@@ -12,7 +13,10 @@ import numpy as np
 
 
 class MultiNormal:
-    def __init__(self, data):
+     """
+     Represents a Multivariate Normal distribution
+     """
+def __init__(self, data):
         """
         Raises:
             TypeError: If data is not a 2D numpy array.
