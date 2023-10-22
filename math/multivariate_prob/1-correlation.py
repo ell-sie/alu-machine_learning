@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
-
-import numpy as np
-
-def correlation(C):
-    """
+"""
     Calculate the correlation matrix from a given covariance matrix.
 
     Args:
-        C (numpy.ndarray): A numpy array of shape (d, d) containing a covariance matrix.
+        C (numpy.ndarray): A numpy array of shape (d, d)
+        containing a covariance matrix.
             d is the number of dimensions.
+"""
+import numpy as np
 
+
+def correlation(C):
+    """
     Returns:
-        correlation_matrix (numpy.ndarray): A numpy array of shape (d, d) containing the correlation matrix.
+        correlation_matrix (numpy.ndarray): A numpy array of
+        shape (d, d) containing the correlation matrix.
 
     Raises:
         TypeError: If C is not a numpy.ndarray.
-        ValueError: If C is not a 2D square matrix, indicating that it should be a square matrix.
+        ValueError: If C is not a 2D square matrix,
+        indicating that it should be a square matrix.
     """
     if not isinstance(C, np.ndarray):
         raise TypeError("C must be a numpy.ndarray")
