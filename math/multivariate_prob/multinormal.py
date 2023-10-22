@@ -13,10 +13,10 @@ import numpy as np
 
 
 class MultiNormal:
-     """
-     Represents a Multivariate Normal distribution
-     """
-def __init__(self, data):
+    """
+    Represents a Multivariate Normal distribution
+    """
+    def __init__(self, data):
         """
         Raises:
             TypeError: If data is not a 2D numpy array.
@@ -32,7 +32,7 @@ def __init__(self, data):
         self.mean = mean
         self.cov = cov
 
-def pdf(self, x):
+    def pdf(self, x):
         """
         Calculate the Probability Density Function (PDF) at a data point.
 
