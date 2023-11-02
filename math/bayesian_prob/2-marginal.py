@@ -7,7 +7,7 @@
         n (int): The total number of patients observed.
         P (numpy.ndarray): A 1D numpy array containing the various
         hypothetical probabilities of patients developing severe side effects.
-        Pr (numpy.ndarray): A 1D numpy array containing the prior beliefs about P.
+    Pr (numpy.ndarray): A 1D numpy array containing the prior beliefs about P.
 
     Returns:
         float: The marginal probability of obtaining x and n.
@@ -19,13 +19,13 @@ from scipy.special import comb
 def marginal(x, n, P, Pr):
     """
     Exceptions:
-        ValueError: 
+        ValueError:
             - If n is not a positive integer.
             - If x is not a non-negative integer.
             - If x is greater than n.
             - If any value in P or Pr is not in the range [0, 1].
             - If Pr does not sum to 1.
-        TypeError: 
+        TypeError:
             - If P or Pr is not a 1D numpy array.
             - If Pr does not have the same shape as P.
     """
