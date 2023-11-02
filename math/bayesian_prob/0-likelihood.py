@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import numpy as np
 """
     Calculate the likelihood of obtaining certain
      data given various hypothetical probabilities.
@@ -11,6 +10,8 @@ import numpy as np
         P (numpy.ndarray): A 1D numpy array containing the various
          hypothetical probabilitiesof developing severe side effects.
 """
+import numpy as np
+
 
 def likelihood(x, n, P):
     """
