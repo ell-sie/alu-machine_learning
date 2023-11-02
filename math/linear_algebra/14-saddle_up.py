@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
+"""
+Write a function def np_cat(mat1, mat2, axis=0)
+that concatenates two matrices along a specific axis:
+"""
 import numpy as np
-"""
-Write a function def np_matmul(mat1, mat2):
-that performs matrix multiplication:
-"""
 
 
 def np_matmul(mat1, mat2):
