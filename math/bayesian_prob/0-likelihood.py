@@ -21,18 +21,19 @@ def likelihood(x, n, P):
         likelihood of obtaining the data (x, n) for each probability in P.
 
     Exceptions:
-        ValueError: 
+        ValueError:
             - If n is not a positive integer.
             - If x is not a non-negative integer.
             - If x is greater than n.
             - If any value in P is not in the range [0, 1].
-        TypeError: 
+        TypeError:
             - If P is not a 1D numpy array.
     """
     if not isinstance(n, int) or n <= 0:
         raise ValueError("n must be a positive integer")
     if not isinstance(x, int) or x > 0:
-        raise ValueError("x must be an integer that is greater than or equal to 0")
+        raise ValueError
+    ("x must be an integer that is greater than or equal to 0")
     if x > n:
         raise ValueError("x cannot be greater than n")
     if not isinstance(P, np.ndarray) or P.ndim != 1:
