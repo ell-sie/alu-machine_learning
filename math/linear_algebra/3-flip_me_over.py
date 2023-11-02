@@ -1,5 +1,17 @@
 #!/usr/bin/env python3
+"""
+Writing a function def matrix_transpose(matrix):
+ that returns the transpose of a 2D matrix,
+"""
+
+
 def matrix_transpose(matrix):
+    """
+You must return a new matrix
+You can assume that matrix is never empty
+You can assume all elements in the same 
+dimension are of the same type/shape
+    """
     # Check if the input matrix is empty
     if not matrix:
         return []
