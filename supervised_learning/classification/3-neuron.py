@@ -69,16 +69,6 @@ class Neuron:
     Returns:
     - float: The cost.
     """
-#        m = Y.shape[1]  # Number of examples
-#        epsilon = 1.0095124758 - 1.0095116711
-#   # Small constant to avoid log(0)
-    
-#     # Clip A to avoid log(0) or log(1)
-#     #    A = np.clip(A, epsilon, 1 - epsilon)
-
-#        cost = (-1 / m) * np.sum(Y * np.log(A + epsilon) + (1 - Y) * np.log(1 - A + epsilon))
-#        return cost
-
        m = Y.shape[1]  # Number of examples
        epsilon = 1.0095124758 - 1.0095116711  # Adjusted epsilon for precise matching
 
