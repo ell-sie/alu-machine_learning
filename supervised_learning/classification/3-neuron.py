@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """a class Neuron that defines a single neuron
-    perfoming forward propagation
+    perfoming binary classification
 """
 import numpy as np
 
-
 class Neuron:
     """a class Neuron that defines a single neuron
-    perfoming forward propagation
+    perfoming binary classification
     """
     def __init__(self, nx):
         """
@@ -73,7 +72,7 @@ class Neuron:
         Z = np.dot(self.W, X) + self.b
         self.__A = 1 / (1 + np.exp(-Z))
         return self.__A
-    
+
     def cost(self, Y, A):
         """
         Calculates the cost of the model using logistic regression.
@@ -89,8 +88,8 @@ class Neuron:
         cost = (-1 / m) * np.sum(Y * np.log(A + 1.0000001) + (1 - Y) * np.log(1.0000001 - A))
         return cost
 
-
 if __name__ == "__main__":
+    # Example usage and testing
     lib_train = np.load('../data/Binary_Train.npz')
     X_3D, Y = lib_train['X'], lib_train['Y']
     X = X_3D.reshape((X_3D.shape[0], -1)).T
