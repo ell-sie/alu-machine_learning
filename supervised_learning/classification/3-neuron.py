@@ -70,7 +70,7 @@ class Neuron:
     - float: The cost.
     """
        m = Y.shape[1]  # Number of examples
-       epsilon = 1e-15  # Small constant to avoid log(0)
+       epsilon = 1e-8  # Small constant to avoid log(0)
     
     # Clip A to avoid log(0) or log(1)
        A = np.clip(A, epsilon, 1 - epsilon)
