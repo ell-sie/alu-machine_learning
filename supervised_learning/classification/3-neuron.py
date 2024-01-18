@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-"""a class Neuron that defines a single neuron
-    perfoming binary classification
-"""
+"""A class Neuron that defines a single
+neuron performing forward propagation."""
 import numpy as np
 
 
 class Neuron:
-    """a class Neuron that defines a single neuron
-    perfoming binary classification
-    """
+    """A class Neuron that defines a single
+    neuron performing forward propagation."""
     def __init__(self, nx):
         """
         Initializes a Neuron instance.
@@ -32,32 +30,17 @@ class Neuron:
 
     @property
     def W(self):
-        """
-        Getter method for the weights vector.
-
-        Returns:
-        - numpy.ndarray: The weights vector.
-        """
+        """Getter method for the weights vector."""
         return self.__W
 
     @property
     def b(self):
-        """
-        Getter method for the bias.
-
-        Returns:
-        - float: The bias value.
-        """
+        """Getter method for the bias."""
         return self.__b
 
     @property
     def A(self):
-        """
-        Getter method for the activated output.
-
-        Returns:
-        - float: The activated output.
-        """
+        """Getter method for the activated output."""
         return self.__A
 
     def forward_prop(self, X):
@@ -76,31 +59,30 @@ class Neuron:
 
     def cost(self, Y, A):
         """
-        Calculates the cost of the model
-        using logistic regression.
+        Calculates the cost of the model using logistic regression.
 
         Parameters:
-        - Y (numpy.ndarray): Correct labels with shape (1, m).
-        - A (numpy.ndarray): Activated output with shape (1, m).
+        - Y (numpy.ndarray): Correct labels for the input data with shape (1, m).
+        - A (numpy.ndarray): Activated output of the neuron for each example with shape (1, m).
 
         Returns:
         - float: The cost.
         """
-        m = Y.shape[1]
-        epsilon = 1.0000001
-        cost = (-1 / m) * np.sum(Y * np.log(A + epsilon) +
-                (1 - Y) * np.log(1.0000001 - A))
+        m = Y.shape[1]  # Number of examples
+        cost = (-1 / m) * np.sum(Y * np.log(A + 1.0000001) + (1 - Y) * np.log(1 - A + 1.0000001))
         return cost
 
 
 if __name__ == "__main__":
-    # Example usage and testing
-    lib_train = np.load('../data/Binary_Train.npz')
-    X_3D, Y = lib_train['X'], lib_train['Y']
-    X = X_3D.reshape((X_3D.shape[0], -1)).T
-
     np.random.seed(0)
-    neuron = Neuron(X.shape[0])
+    X_3D = np.random.randn(784, 10)
+    X = X_3D.reshape((X_3D.shape[0], -1)).T
+    lib_train = np.load('../data/Binary_Train.npz')
+    Y = lib_train['Y']
+
+    neuron = Neuron(784)
+    neuron._Neuron__b = 1
+
     A = neuron.forward_prop(X)
     cost = neuron.cost(Y, A)
     print(cost)
