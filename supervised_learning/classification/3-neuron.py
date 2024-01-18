@@ -4,6 +4,7 @@
 """
 import numpy as np
 
+
 class Neuron:
     """a class Neuron that defines a single neuron
     perfoming binary classification
@@ -87,6 +88,7 @@ class Neuron:
         m = Y.shape[1]
         cost = (-1 / m) * np.sum(Y * np.log(A + 1.0000001) + (1 - Y) * np.log(1.0000001 - A))
         return cost
+
 
 if __name__ == "__main__":
     # Example usage and testing
