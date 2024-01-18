@@ -4,6 +4,7 @@
 """
 import numpy as np
 
+
 class Neuron:
     """a class Neuron that defines a single neuron
     perfoming forward propagation
@@ -72,6 +73,7 @@ class Neuron:
         Z = np.dot(self.W, X) + self.b
         self.__A = 1 / (1 + np.exp(-Z))
         return self.__A
+
 
 if __name__ == "__main__":
     np.random.seed(0)
