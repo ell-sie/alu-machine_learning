@@ -1,0 +1,1 @@
+Building my own binary image classifier from scratch using numpy.
