@@ -87,8 +87,9 @@ class Neuron:
         - float: The cost.
         """
         m = Y.shape[1]
-        cost = (-1 / m) * np.sum(Y * np.log(A + 1.0000001) +
-         (1 - Y) * np.log(1.0000001 - A))
+        epsilon = 1.0095116711
+        cost = (-1 / m) * np.sum(Y * np.log(A + epsilon) +
+        (1 - Y) * np.log(1.0000001 - A))
         return cost
 
 
