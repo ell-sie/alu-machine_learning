@@ -40,14 +40,14 @@ class DeepNeuralNetwork:
         self.__L = len(layers)
         self.__cache = {}
         self.__weights = {}
-
+        
         for i in range(self.__L):
-          if i == 0:
-            rndn = np.random.randn(layers[i], nx)
-            self.__weights['W' + str(i + 1)] = rndn * np.sqrt(2 / nx)
-          else:
-            rndn = np.random.randn(layers[i], layers[i - 1])
-            self.__weights['W' + str(i + 1)] = rndn * np.sqrt(2 / layers[i - 1])
+            if i == 0:
+                rndn = np.random.randn(layers[i], nx)
+                self.__weights['W' + str(i + 1)] = rndn * np.sqrt(2 / nx)
+            else:
+                layers = np.random.randn(layers[i], layers[i - 1])
+                self.__weights['W' + str(i + 1)] = layers * np.sqrt(2 / layers[i - 1])
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
