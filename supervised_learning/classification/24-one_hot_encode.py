@@ -14,7 +14,8 @@ def one_hot_encode(Y, classes):
         - m is the number of examples
     - classes is the maximum number of classes found in Y
 
-    Returns: a one-hot encoding of Y with shape (classes, m), or None on failure
+    Returns: a one-hot encoding of
+    Y with shape (classes, m), or None on failure
     """
     if not isinstance(Y, np.ndarray) or len(Y.shape) != 1:
         return None
