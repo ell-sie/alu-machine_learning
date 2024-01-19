@@ -172,7 +172,8 @@ class NeuralNetwork:
         self.__W2 = self.__W2 - alpha * dW2
         self.__b2 = self.__b2 - alpha * db2
 
-    def train(self, X, Y, iterations=5000, alpha=0.05, verbose=True, graph=True, step=100):
+    def train(self, X, Y, iterations=5000,\
+        alpha=0.05, verbose=True, graph=True, step=100):
         """
         Trains the neural network.
 
@@ -181,16 +182,20 @@ class NeuralNetwork:
         - Y (numpy.ndarray): Correct labels for the input data.
         - iterations (int): Number of iterations to train over.
         - alpha (float): Learning rate.
-        - verbose (bool): Defines whether or not to print information about the training.
-        - graph (bool): Defines whether or not to graph information about the training.
+        - verbose (bool): Defines whether or not
+        to print information about the training.
+        - graph (bool): Defines whether or not
+        to graph information about the training.
         - step (int): Interval for printing data to stdout or plotting.
 
         Raises:
-        - TypeError: If iterations is not an integer or alpha is not a float or step is not an integer.
+        - TypeError: If iterations is not an integer or
+        alpha is not a float or step is not an integer.
         - ValueError: If iterations or alpha or step is not positive.
 
         Updates the private attributes __W1, __b1, __A1, __W2, __b2, and __A2.
-        Returns the evaluation of the training data after iterations of training have occurred.
+        Returns the evaluation of the
+        training data after iterations of training have occurred.
         """
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
