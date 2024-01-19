@@ -186,7 +186,8 @@ class NeuralNetwork:
         - ValueError: If iterations or alpha is not positive.
 
         Updates the private attributes __W1, __b1, __A1, __W2, __b2, and __A2.
-        Returns the evaluation of the training data after iterations of training have occurred.
+        Returns the evaluation of the training data after
+        iterations of training have occurred.
         """
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
