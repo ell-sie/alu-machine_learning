@@ -11,7 +11,7 @@ class DeepNeuralNetwork:
     """a class DeepNeuralNetwork that defines a deep neural network
     performing binary classification
     """
-    def __init__(self, nx, layers, activation='sig'):
+    def __init__(self, nx, layers):
         """
         Initializes a DeepNeuralNetwork instance.
 
@@ -36,9 +36,6 @@ class DeepNeuralNetwork:
             raise TypeError("layers must be a list of positive integers")
         if not all(map(lambda x: isinstance(x, int) and x > 0, layers)):
             raise TypeError("layers must be a list of positive integers")
-        if activation not in ['sig', 'tanh']:
-            raise ValueError("activation must be 'sig' or 'tanh'")
-        self.__activation = activation
 
         self.__L = len(layers)
         self.__cache = {}
@@ -80,13 +77,6 @@ class DeepNeuralNetwork:
         - dict: A dictionary to hold all weights and biased of the network.
         """
         return self.__weights
-    
-    @property
-    def activation(self):
-        """
-        Getter for __activation
-        """
-        return self.__activation
 
     def forward_prop(self, X):
         """
@@ -99,27 +89,17 @@ class DeepNeuralNetwork:
                 t = np.exp(Z)
                 self.__cache['A' + str(i + 1)] = t / np.sum(t, axis=0, keepdims=True)
             else:
-                if self.__activation == 'sig':
-                    self.__cache['A' + str(i + 1)] = 1 / (1 + np.exp(-Z))
-                elif self.__activation == 'tanh':
-                    self.__cache['A' + str(i + 1)] = np.tanh(Z)
+                self.__cache['A' + str(i + 1)] = 1 / (1 + np.exp(-Z))
         return self.__cache['A' + str(self.__L)], self.__cache
     
     def cost(self, Y, A):
         """
-        Calculates the cost of the model using logistic regression.
-
-        Parameters:
-        - Y (numpy.ndarray): Correct labels for the input data.
-        - A (numpy.ndarray): Activated output of the neuron for each example.
-
-        Returns:
-        - float: The cost of the model.
+        Calculates the cost of the model using logistic regression
         """
         m = Y.shape[1]
-        cost = -1 / m * np.sum(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
+        cost = -1 / m * np.sum(Y * np.log(A))
         return cost
-
+    
     def evaluate(self, X, Y):
         """
         Evaluates the neural network’s predictions
@@ -131,17 +111,21 @@ class DeepNeuralNetwork:
     
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
-        Calculates one pass of gradient descent on the neural network
+        Calculates one pass of gradient descent on the neural network.
+
+        Parameters:
+        - Y (numpy.ndarray): Correct labels for the input data.
+        - cache (dict): Intermediary values of the network.
+        - alpha (float): Learning rate.
+
+        Updates the private attribute __weights.
         """
         m = Y.shape[1]
         dz = cache['A' + str(self.__L)] - Y
         for i in range(self.__L, 0, -1):
             dw = np.matmul(cache['A' + str(i - 1)], dz.T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
-            if self.__activation == 'sig':
-                dz = np.matmul(self.__weights['W' + str(i)].T, dz) * (cache['A' + str(i - 1)] * (1 - cache['A' + str(i - 1)]))
-            elif self.__activation == 'tanh':
-                dz = np.matmul(self.__weights['W' + str(i)].T, dz) * (1 - cache['A' + str(i - 1)] ** 2)
+            dz = np.matmul(self.__weights['W' + str(i)].T, dz) * (cache['A' + str(i - 1)] * (1 - cache['A' + str(i - 1)]))
             self.__weights['W' + str(i)] -= alpha * dw.T
             self.__weights['b' + str(i)] -= alpha * db
 
@@ -241,11 +225,3 @@ class DeepNeuralNetwork:
                 return pickle.load(f)
         except FileNotFoundError:
             return None
-
-    def cost(self, Y, A):
-        """
-        Calculates the cost of the model using logistic regression
-        """
-        m = Y.shape[1]
-        cost = -1 / m * np.sum(Y * np.log(A))
-        return cost
