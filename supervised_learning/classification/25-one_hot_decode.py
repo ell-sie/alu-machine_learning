@@ -14,7 +14,8 @@ def one_hot_decode(one_hot):
         - classes is the maximum number of classes
         - m is the number of examples
 
-    Returns: a numpy.ndarray with shape (m, ) containing the numeric labels for each example, or None on failure
+    Returns: a numpy.ndarray with shape (m, )
+    containing the numeric labels for each example, or None on failure
     """
     if not isinstance(one_hot, np.ndarray) or len(one_hot.shape) != 2:
         return None
