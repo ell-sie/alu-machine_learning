@@ -43,11 +43,12 @@ class DeepNeuralNetwork:
 
         for i in range(self.__L):
             if i == 0:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i], nx) * \
-                    np.sqrt(2 / nx)
+                self.__weights['W' + str(i + 1)] = \
+                    np.random.randn(layers[i], nx) * np.sqrt(2 / nx)
             else:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i],
-                                                                   layers[i - 1]) * np.sqrt(2 / layers[i - 1])
+                self.__weights['W' + str(i + 1)] = \
+                    np.random.randn(layers[i],layers[i - 1]) * \
+                        np.sqrt(2 / layers[i - 1])
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
@@ -93,10 +94,11 @@ class DeepNeuralNetwork:
         self.__cache['A0'] = X
         for i in range(self.__L):
             Z = np.dot(self.__weights['W' + str(i + 1)],
-                       self.__cache['A' + str(i)]) + self.__weights['b' + str(i + 1)]
+                       self.__cache['A' + str(i)]) + \
+                           self.__weights['b' + str(i + 1)]
             self.__cache['A' + str(i + 1)] = 1 / (1 + np.exp(-Z))
         return self.__cache['A' + str(self.__L)], self.__cache
- 
+
     def cost(self, Y, A):
         """
         Calculates the cost of the model using logistic regression.
