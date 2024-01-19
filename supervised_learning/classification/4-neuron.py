@@ -107,7 +107,6 @@ class Neuron:
         return prediction, cost
 
 
-
 if __name__ == "__main__":
     np.random.seed(0)
     lib_train = np.load('../data/Binary_Train.npz')
