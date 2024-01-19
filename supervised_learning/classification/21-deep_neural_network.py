@@ -43,9 +43,11 @@ class DeepNeuralNetwork:
         
         for i in range(self.__L):
             if i == 0:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i], nx) * np.sqrt(2 / nx)
+                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i],
+                                                    nx) * np.sqrt(2 / nx)
             else:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i], layers[i - 1]) * np.sqrt(2 / layers[i - 1])
+                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i],
+                                                layers[i - 1]) * np.sqrt(2 / layers[i - 1])
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
@@ -143,6 +145,7 @@ class DeepNeuralNetwork:
         for i in range(self.__L, 0, -1):
             dw = np.matmul(cache['A' + str(i - 1)], dz.T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
-            dz = np.matmul(self.__weights['W' + str(i)].T, dz) * (cache['A' + str(i - 1)] * (1 - cache['A' + str(i - 1)]))
+            dz = np.matmul(self.__weights['W' + str(i)].T, dz) * \
+                (cache['A' + str(i - 1)] * (1 - cache['A' + str(i - 1)]))
             self.__weights['W' + str(i)] -= alpha * dw.T
             self.__weights['b' + str(i)] -= alpha * db
