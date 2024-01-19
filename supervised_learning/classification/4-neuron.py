@@ -88,23 +88,23 @@ class Neuron:
         m = Y.shape[1]
         cost = -1 / m * np.sum(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
         return cost
-    
+  
     def evaluate(self, X, Y):
-      """
-      Evaluates the neuron's predictions.
+        """
+        Evaluates the neuron's predictions.
 
-      Parameters:
-      - X (numpy.ndarray): Input data.
-      - Y (numpy.ndarray): Correct labels for the input data.
+        Parameters:
+        - X (numpy.ndarray): Input data.
+        - Y (numpy.ndarray): Correct labels for the input data.
 
-      Returns:
-      - numpy.ndarray: The neuron's prediction.
-      - float: The cost of the network.
-      """
-      A = self.forward_prop(X)
-      cost = self.cost(Y, A)
-      prediction = np.where(A >= 0.5, 1, 0)
-      return prediction, cost
+        Returns:
+        - numpy.ndarray: The neuron's prediction.
+        - float: The cost of the network.
+        """
+        A = self.forward_prop(X)
+        cost = self.cost(Y, A)
+        prediction = np.where(A >= 0.5, 1, 0)
+        return prediction, cost
 
 
 
