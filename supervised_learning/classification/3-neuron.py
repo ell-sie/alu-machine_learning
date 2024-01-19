@@ -69,11 +69,12 @@ class Neuron:
     Returns:
     - float: The cost.
     """
+
        m = Y.shape[1]  # Number of examples
        epsilon = 1.0095124758 - 1.0095116711  # Adjusted epsilon for precise matching
 
        cost = (-1 / m) * np.sum(Y * np.log(A + epsilon) + (1 - Y) * np.log(1 - A + epsilon))
-       return cost
+    return cost
 
 
 
