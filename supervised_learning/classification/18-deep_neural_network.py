@@ -25,7 +25,7 @@ class DeepNeuralNetwork:
         Sets the private instance attributes:
         - __L: The number of layers in the neural network.
         - __cache: A dictionary to hold all intermediary values of the network.
-        - __weights: A dictionary to hold 
+        - __weights: A dictionary to hold
         all weights and biased of the network.
         """
         if not isinstance(nx, int):
@@ -93,7 +93,8 @@ class DeepNeuralNetwork:
         """
         self.__cache['A0'] = X
         for i in range(self.__L):
-            Z = np.dot(self.__weights['W' + str(i + 1)],\
-                self.__cache['A' + str(i)]) + self.__weights['b' + str(i + 1)]
+            Z = np.dot(self.__weights['W' + str(i + 1)],
+                       self.__cache['A' + str(i)]) + \
+                       self.__weights['b' + str(i + 1)]
             self.__cache['A' + str(i + 1)] = 1 / (1 + np.exp(-Z))
         return self.__cache['A' + str(self.__L)], self.__cache
