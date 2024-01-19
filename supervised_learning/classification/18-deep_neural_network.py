@@ -15,7 +15,8 @@ class DeepNeuralNetwork:
 
         Parameters:
         - nx (int): Number of input features to the neuron.
-        - layers (list): List representing the number of nodes in each layer of the network.
+        - layers (list): List representing the
+        number of nodes in each layer of the network.
 
         Raises:
         - TypeError: If nx is not an integer or layers is not a list.
@@ -24,7 +25,8 @@ class DeepNeuralNetwork:
         Sets the private instance attributes:
         - __L: The number of layers in the neural network.
         - __cache: A dictionary to hold all intermediary values of the network.
-        - __weights: A dictionary to hold all weights and biased of the network.
+        - __weights: A dictionary to hold 
+        all weights and biased of the network.
         """
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
@@ -41,9 +43,12 @@ class DeepNeuralNetwork:
 
         for i in range(self.__L):
             if i == 0:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i], nx) * np.sqrt(2 / nx)
+                self.__weights['W' + str(i + 1)] = \
+                    np.random.randn(layers[i], nx) * np.sqrt(2 / nx)
             else:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i], layers[i - 1]) * np.sqrt(2 / layers[i - 1])
+                self.__weights['W' + str(i + 1)] = \
+                    np.random.randn(layers[i], layers[i - 1]) * \
+                    np.sqrt(2 / layers[i - 1])
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
@@ -88,6 +93,7 @@ class DeepNeuralNetwork:
         """
         self.__cache['A0'] = X
         for i in range(self.__L):
-            Z = np.dot(self.__weights['W' + str(i + 1)], self.__cache['A' + str(i)]) + self.__weights['b' + str(i + 1)]
+            Z = np.dot(self.__weights['W' + str(i + 1)],\
+                self.__cache['A' + str(i)]) + self.__weights['b' + str(i + 1)]
             self.__cache['A' + str(i + 1)] = 1 / (1 + np.exp(-Z))
         return self.__cache['A' + str(self.__L)], self.__cache
