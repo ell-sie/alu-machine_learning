@@ -15,7 +15,8 @@ class DeepNeuralNetwork:
 
         Parameters:
         - nx (int): Number of input features to the neuron.
-        - layers (list): List representing the number of nodes in each layer of the network.
+        - layers (list): List representing the number
+        of nodes in each layer of the network.
 
         Raises:
         - TypeError: If nx is not an integer or layers is not a list.
@@ -24,7 +25,8 @@ class DeepNeuralNetwork:
         Sets the private instance attributes:
         - __L: The number of layers in the neural network.
         - __cache: A dictionary to hold all intermediary values of the network.
-        - __weights: A dictionary to hold all weights and biased of the network.
+        - __weights: A dictionary to hold all weights
+        and biased of the network.
         """
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
@@ -41,9 +43,12 @@ class DeepNeuralNetwork:
 
         for i in range(self.__L):
             if i == 0:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i], nx) * np.sqrt(2 / nx)
+                self.__weights['W' + str(i + 1)] = \
+                    np.random.randn(layers[i], nx) * np.sqrt(2 / nx)
             else:
-                self.__weights['W' + str(i + 1)] = np.random.randn(layers[i], layers[i - 1]) * np.sqrt(2 / layers[i - 1])
+                self.__weights['W' + str(i + 1)] = \
+                    np.random.randn(layers[i], layers[i - 1]) * \
+                    np.sqrt(2 / layers[i - 1])
             self.__weights['b' + str(i + 1)] = np.zeros((layers[i], 1))
 
     @property
@@ -88,10 +93,12 @@ class DeepNeuralNetwork:
         """
         self.__cache['A0'] = X
         for i in range(self.__L):
-            Z = np.dot(self.__weights['W' + str(i + 1)], self.__cache['A' + str(i)]) + self.__weights['b' + str(i + 1)]
+            Z = np.dot(self.__weights['W' + str(i + 1)],
+                       self.__cache['A' + str(i)]) +\
+                           self.__weights['b' + str(i + 1)]
             self.__cache['A' + str(i + 1)] = 1 / (1 + np.exp(-Z))
         return self.__cache['A' + str(self.__L)], self.__cache
-    
+
     def cost(self, Y, A):
         """
         Calculates the cost of the model using logistic regression.
@@ -106,7 +113,7 @@ class DeepNeuralNetwork:
         m = Y.shape[1]
         cost = -1 / m * np.sum(Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A))
         return cost
-    
+
     def evaluate(self, X, Y):
         """
         Evaluates the neural network’s predictions.
@@ -123,7 +130,7 @@ class DeepNeuralNetwork:
         cost = self.cost(Y, A)
         prediction = np.where(A >= 0.5, 1, 0)
         return prediction, cost
-    
+
     def gradient_descent(self, Y, cache, alpha=0.05):
         """
         Calculates one pass of gradient descent on the neural network.
@@ -140,7 +147,8 @@ class DeepNeuralNetwork:
         for i in range(self.__L, 0, -1):
             dw = np.matmul(cache['A' + str(i - 1)], dz.T) / m
             db = np.sum(dz, axis=1, keepdims=True) / m
-            dz = np.matmul(self.__weights['W' + str(i)].T, dz) * (cache['A' + str(i - 1)] * (1 - cache['A' + str(i - 1)]))
+            dz = np.matmul(self.__weights['W' + str(i)].T, dz) * \
+                (cache['A' + str(i - 1)] * (1 - cache['A' + str(i - 1)]))
             self.__weights['W' + str(i)] -= alpha * dw.T
             self.__weights['b' + str(i)] -= alpha * db
 
@@ -150,13 +158,13 @@ class DeepNeuralNetwork:
 
         Parameters:
         - X (numpy.ndarray): Input data with shape (nx, m).
-        - Y (numpy.ndarray): Correct labels for the input data.
+        - Y (numpy.ndarray): Correct labels for the input data with shape (1, m).
         - iterations (int): Number of iterations to train over.
         - alpha (float): Learning rate.
 
         Returns:
-        - numpy.ndarray: The neuron’s prediction.
-        - float: The cost of the network.
+        - tuple: The evaluation of the training data after iterations of training.
+          Contains the predicted output and cost.
         """
         if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
@@ -167,8 +175,17 @@ class DeepNeuralNetwork:
         if alpha <= 0:
             raise ValueError("alpha must be positive")
 
-        for _ in range(iterations):
-            A, _ = self.forward_prop(X)
-            self.gradient_descent(Y, A, alpha)
+        for iteration in range(iterations):
+            # Forward propagation
+            A, cache = self.forward_prop(X)
+
+            # Compute cost
+            cost = self.cost(Y, A)
+
+            # Backward propagation
+            self.gradient_descent(Y, cache, alpha)
+
+            if iteration % 100 == 0:
+                print(f"Cost after {iteration} iterations: {cost}")
 
         return self.evaluate(X, Y)
