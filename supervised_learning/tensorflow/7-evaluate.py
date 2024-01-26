@@ -4,6 +4,7 @@ Module for evaluationg a neural network classifier
 """
 import tensorflow as tf
 
+
 def evaluate(X, Y, save_path):
     """
     Evaluates the output of a neural network
