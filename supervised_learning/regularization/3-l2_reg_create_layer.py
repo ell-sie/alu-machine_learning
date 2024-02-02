@@ -4,6 +4,7 @@ Module for creating a tensorflow layer that includes L2 regularization
 """
 import tensorflow as tf
 
+
 def l2_reg_create_layer(prev, n, activation, lambtha):
     """
     Function that creates a tensorflow layer that includes L2 regularization
