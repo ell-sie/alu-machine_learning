@@ -16,17 +16,20 @@ def dropout_forward_prop(X, weights, L, keep_prob):
     of each layer and the dropout mask used on each layer
     """
     cache = {}
-    cache['A0'] = X
+    cache["A0"] = X
     for i in range(1, L + 1):
-        Z = np.matmul(weights['W' + str(i)],\
-            cache['A' + str(i - 1)]) + weights['b' + str(i)]
+        Z = np.dot(weights["W{}".format(i)],
+                   cache["A{}".format(
+                    i - 1)]) + weights["b{}".format(i)]
         if i != L:
-            A = np.tanh(Z)
-            D = np.random.rand(A.shape[0], A.shape[1]) < keep_prob
-            A = np.multiply(A, D)
-            A /= keep_prob
-            cache['D' + str(i)] = D
+            tanh = np.sinh(Z) / np.cosh(Z)
+            D1 = np.random.rand(tanh.shape[0], tanh.shape[1])
+            D1 = (D1 < keep_prob).astype(int)
+            tanh = tanh * D1
+            tanh = tanh / keep_prob
+            cache["D{}".format(i)] = D1
         else:
-            A = np.exp(Z) / np.sum(np.exp(Z), axis=0)
-        cache['A' + str(i)] = A
+            t = np.exp(Z)
+            tanh = np.exp(Z) / np.sum(t, axis=0, keepdims=True)
+        cache["A{}".format(i)] = tanh
     return cache
