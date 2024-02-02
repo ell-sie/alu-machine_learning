@@ -8,7 +8,8 @@ import numpy as np
 def dropout_forward_prop(X, weights, L, keep_prob):
     """
     Function that conducts forward propagation using Dropout
-    X: a numpy.ndarray of shape (nx, m) containing the input data for the network
+    X: a numpy.ndarray of shape (nx, m)
+    containing the input data for the network
     weights: a dictionary of the weights and biases of the neural network
     L: the number of layers in the network
     keep_prob: the probability that a node will be kept
