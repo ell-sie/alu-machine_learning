@@ -6,7 +6,7 @@ Here are the approaches for each scenario:
 4. Low Bias, Low Variance: F
 
 Explanation:
-- High Bias, High Variance: This means your model is underfitting and overfitting at the same time. You could try a different architecture (B), get more data (C), build a deeper network (D), or use regularization (E).
-- High Bias, Low Variance: This means your model is underfitting. You could try a different architecture (B) or build a deeper network (D).
-- Low Bias, High Variance: This means your model is overfitting. You could train more (A), get more data (C), or use regularization (E).
-- Low Bias, Low Variance: This is the ideal scenario where your model is just right. You don't need to do anything (F).
+A High Bias, High Variance: This means your model is underfitting and overfitting at the same time. You could try a different architecture (B), get more data (C), build a deeper network (D), or use regularization (E).
+B High Bias, Low Variance: This means your model is underfitting. You could try a different architecture (B) or build a deeper network (D).
+C Low Bias, High Variance: This means your model is overfitting. You could train more (A), get more data (C), or use regularization (E).
+D Low Bias, Low Variance: This is the ideal scenario where your model is just right. You don't need to do anything (F).
