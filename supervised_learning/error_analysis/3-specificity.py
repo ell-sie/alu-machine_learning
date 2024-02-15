@@ -16,7 +16,7 @@ def specificity(confusion):
     containing the specificity of each class
     """
     true_negatives = np.sum(confusion) - np.sum(confusion, axis=0) -\
-                    np.sum(confusion, axis=1) + np.diagonal(confusion)
+        np.sum(confusion, axis=1) + np.diagonal(confusion)
     actual_negatives = np.sum(confusion) - np.sum(confusion, axis=1)
     specificity = true_negatives / actual_negatives
 
