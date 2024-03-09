@@ -3,11 +3,13 @@
 import requests
 
 def get_launch_data():
+    """ Script that displays the number of launches per rocket"""
     url = "https://api.spacexdata.com/v4/launches"
     response = requests.get(url)
     return response.json()
 
 def count_launches_by_rocket(launch_data):
+    """ Script that displays the number of launches per rocket"""
     rocket_launches = {}
     for launch in launch_data:
         rocket_name = launch["rocket"]
