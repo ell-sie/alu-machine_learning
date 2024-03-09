@@ -1,33 +1,25 @@
 #!/usr/bin/env python3
-"""
-Script that displays the number of launches per rocket.
-"""
+""" Script that displays the number of launches per rocket"""
 import requests
 
 
 if __name__ == '__main__':
-
-    rockets = {}
-
+    object = dict()
     url = 'https://api.spacexdata.com/v4/launches'
-    r = requests.get(url)
-    launches = r.json()
-
+    launches = requests.get(url).json()
     for launch in launches:
+        urls = "https://api.spacexdata.com/v4/rockets/{}"
         rocket_id = launch['rocket']
-        url_r = "https://api.spacexdata.com/v4/rockets/{}".\
-            format(rocket_id)
-        req_r = requests.get(url_r)
-        json_r = req_r.json()
-        rocket_name = json_r['name']
+        rocket_url = urls.format(rocket_id)
+        rocket_name = requests.get(rocket_url).json()['name']
 
-        if rocket_name in rockets.keys():
-            rockets[rocket_name] += 1
+        if rocket_name in object.keys():
+            object[rocket_name] += 1
         else:
-            rockets[rocket_name] = 1
+            object[rocket_name] = 1
 
-    sort = sorted(rockets.items(), key=lambda x: x[0])
-    sort = sorted(sort, key=lambda x: x[1], reverse=True)
+    keys = sorted(object.items(), key=lambda x: x[0])
+    keys = sorted(keys, key=lambda x: x[1], reverse=True)
 
-    for i in sort:
-        print("{}: {}".format(i[0], i[1]))
+    for k in keys:
+        print("{}: {}".format(k[0], k[1]))
