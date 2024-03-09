@@ -1,34 +1,25 @@
 #!/usr/bin/env python3
-"""
-this displays the upcoming launch information.
-"""
+""" Script that displays the number of launches per rocket"""
 import requests
 
+
 if __name__ == '__main__':
-    url = "https://api.spacexdata.com/v4/launches/upcoming"
-    r = requests.get(url)
-    json = r.json()
+    object = dict()
+    url = 'https://api.spacexdata.com/v4/launches'
+    launches = requests.get(url).json()
+    for launch in launches:
+        urls = "https://api.spacexdata.com/v4/rockets/{}"
+        rocket_id = launch['rocket']
+        rocket_url = urls.format(rocket_id)
+        rocket_name = requests.get(rocket_url).json()['name']
 
-    dates = [x['date_unix'] for x in json]
-    index = dates.index(min(dates))
-    next_launch = json[index]
+        if rocket_name in object.keys():
+            object[rocket_name] += 1
+        else:
+            object[rocket_name] = 1
 
-    name = next_launch['name']
-    date = next_launch['date_local']
-    rocket_id = next_launch['rocket']
-    launchpad_id = next_launch['launchpad']
+    keys = sorted(object.items(), key=lambda x: x[0])
+    keys = sorted(keys, key=lambda x: x[1], reverse=True)
 
-    url_r = "https://api.spacexdata.com/v4/rockets/" + rocket_id
-    req_r = requests.get(url_r)
-    json_r = req_r.json()
-    rocket_name = json_r['name']
-
-    url_l = "https://api.spacexdata.com/v4/launchpads/" + launchpad_id
-    req_l = requests.get(url_l)
-    json_l = req_l.json()
-    launchpad_name = json_l['name']
-    launchpad_loc = json_l['locality']
-
-    info = (name + ' (' + date + ') ' + rocket_name + ' - ' +
-            launchpad_name + ' (' + launchpad_loc + ')')
-    print(info)
+    for k in keys:
+        print("{}: {}".format(k[0], k[1]))
