@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Prints the location of a specific Github user
+Prints the location of a specific Github user.
 """
 import requests
 import sys

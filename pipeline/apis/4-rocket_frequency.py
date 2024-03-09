@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Script that displays the number of launches per rocket
+Script that displays the number of launches per rocket.
 """
 import requests
 
