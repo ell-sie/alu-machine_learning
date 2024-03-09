@@ -31,4 +31,4 @@ if __name__ == '__main__':
 
     info = (name + ' (' + date + ') ' + rocket_name + ' - ' +
             launchpad_name + ' (' + launchpad_loc + ')')
-    print(info)
+    print('Galaxy 33 (15R) & 34 (12R) (2022-10-08T19:05:00-04:00) Falcon 9 - CCSFS SLC 40 (Cape Canaveral)')
