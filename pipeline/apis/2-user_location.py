@@ -1,32 +1,21 @@
 #!/usr/bin/env python3
-"""
-Prints the location of a specific Github user.
-"""
-import requests
+""" Script for getting user location"""
 import sys
+import requests
 import time
 
-def get_user_location(user_url):
-    headers = {'Accept': 'application/vnd.github.v3+json'}
-    r = requests.get(user_url, headers=headers)
-
-    if r.status_code == 200:
-        return r.json().get('location', 'Location not available')
-    elif r.status_code == 404:
-        return "Not found"
-    elif r.status_code == 403:
-        rate_limit = int(r.headers['X-Ratelimit-Reset'])
-        now = int(time.time())
-        minutes = int((rate_limit - now) / 60)
-        return f"Reset in {minutes} min"
-    else:
-        return f"Unexpected status code: {r.status_code}"
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print("Usage: ./2-user_location.py <user_api_url>")
-        sys.exit(1)
+    url = sys.argv[1]
+    response = requests.get(url)
+    res = response.json()
 
-    user_url = sys.argv[1]
-    location = get_user_location(user_url)
-    print(location)
+    if response.status_code == 200:
+        print(res['location'])
+    elif response.status_code == 404:
+        print('Not found')
+    elif response.status_code == 403:
+        limit = int(response.headers['X-Ratelimit-Reset'])
+        start = int(time.time())
+        elapsed = int((limit - start) / 60)
+        print('Reset in {} min'.format(int(elapsed)))
