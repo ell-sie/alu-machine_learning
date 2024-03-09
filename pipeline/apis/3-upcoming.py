@@ -2,13 +2,14 @@
 """
 this displays the upcoming launch information.
 """
+
 import requests
 from datetime import datetime, timezone
 
 def get_local_time(utc_time):
     """
-     this displays the upcoming launch information.
-    """
+this displays the upcoming launch information.
+"""
     utc_time = datetime.fromisoformat(utc_time.replace("Z", "+00:00"))
     local_time = utc_time.replace(tzinfo=timezone.utc).astimezone(tz=None)
     return local_time.strftime("%Y-%m-%dT%H:%M:%S")
@@ -31,12 +32,12 @@ if __name__ == '__main__':
         launchpad_id = soonest_launch['launchpad']
         
         # Fetch rocket information
-        rocket_url = f'https://api.spacexdata.com/v4/rockets/{rocket_id}'
+        rocket_url = 'https://api.spacexdata.com/v4/rockets/{}'.format(rocket_id)
         rocket_data = requests.get(rocket_url).json()
         rocket_name = rocket_data['name']
         
         # Fetch launchpad information
-        launchpad_url = f'https://api.spacexdata.com/v4/launchpads/{launchpad_id}'
+        launchpad_url = 'https://api.spacexdata.com/v4/launchpads/{}'.format(launchpad_id)
         launchpad_data = requests.get(launchpad_url).json()
         launchpad_name = launchpad_data['name']
         launchpad_locality = launchpad_data['locality']
@@ -45,6 +46,6 @@ if __name__ == '__main__':
         launch_date_local = get_local_time(launch_date_utc)
         
         # Print the information
-        print(f"{launch_name} ({launch_date_local}) {rocket_name} - {launchpad_name} ({launchpad_locality})")
+        print('{} ({}) {} - {} ({})'.format(launch_name, launch_date_local, rocket_name, launchpad_name, launchpad_locality))
     else:
         print("Failed to fetch upcoming launches data")
