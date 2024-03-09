@@ -8,11 +8,13 @@ from datetime import datetime, timezone
 
 def get_local_time(utc_time):
     """
-this displays the upcoming launch information.
-"""
+    this displays the upcoming launch information.
+    """
     utc_time = datetime.fromisoformat(utc_time.replace("Z", "+00:00"))
     local_time = utc_time.replace(tzinfo=timezone.utc).astimezone(tz=None)
-    return local_time.strftime("%Y-%m-%dT%H:%M:%S")
+    local_time_str = local_time.strftime("%Y-%m-%dT%H:%M:%S")
+    timezone_offset = local_time.strftime("%z")
+    return local_time_str + timezone_offset
 
 if __name__ == '__main__':
     url = 'https://api.spacexdata.com/v4/launches/upcoming'
