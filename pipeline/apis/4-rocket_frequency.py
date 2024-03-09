@@ -2,24 +2,30 @@
 """ Script that displays the number of launches per rocket"""
 import requests
 
+def get_launch_data():
+    url = "https://api.spacexdata.com/v4/launches"
+    response = requests.get(url)
+    return response.json()
 
-if __name__ == '__main__':
-    object = dict()
-    url = 'https://api.spacexdata.com/v4/launches'
-    launches = requests.get(url).json()
-    for launch in launches:
-        urls = "https://api.spacexdata.com/v4/rockets/{}"
-        rocket_id = launch['rocket']
-        rocket_url = urls.format(rocket_id)
-        rocket_name = requests.get(rocket_url).json()['name']
-
-        if rocket_name in object.keys():
-            object[rocket_name] += 1
+def count_launches_by_rocket(launch_data):
+    rocket_launches = {}
+    for launch in launch_data:
+        rocket_name = launch["rocket"]
+        if rocket_name in rocket_launches:
+            rocket_launches[rocket_name] += 1
         else:
-            object[rocket_name] = 1
+            rocket_launches[rocket_name] = 1
+    return rocket_launches
 
-    keys = sorted(object.items(), key=lambda x: x[0])
-    keys = sorted(keys, key=lambda x: x[1], reverse=True)
+def main():
+    launch_data = get_launch_data()
+    rocket_launches = count_launches_by_rocket(launch_data)
 
-    for k in keys:
-        print("{}: {}".format(k[0], k[1]))
+    # Sort by number of launches (descending) and then alphabetically
+    sorted_launches = sorted(rocket_launches.items(), key=lambda x: (-x[1], x[0]))
+
+    for rocket, launches in sorted_launches:
+        print(f"{rocket}: {launches}")
+
+if __name__ == "__main__":
+    main()
