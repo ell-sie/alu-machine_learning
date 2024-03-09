@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Script for getting user location."""
+""" Script for getting user location"""
 import sys
 import requests
 import time
