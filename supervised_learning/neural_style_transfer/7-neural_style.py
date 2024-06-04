@@ -53,8 +53,7 @@ class NST:
     @staticmethod
     def scale_image(image):
         """
-        Rescales an image such that its pixels values are between 0 and 1
-            and its largest side is 512 pixels
+        Rescales an image
         """
         if type(image) is not np.ndarray or len(image.shape) != 3:
             raise TypeError(
