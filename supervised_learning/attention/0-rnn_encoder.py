@@ -5,6 +5,7 @@ performing the role of an encoder in a machine translation model.
 """
 import tensorflow as tf
 
+
 class RNNEncoder(tf.keras.layers.Layer):
     """A class RNNEncoder that defines a single neuron
     performing the role of an encoder in a machine translation model."""
@@ -63,5 +64,5 @@ class RNNEncoder(tf.keras.layers.Layer):
          containing the last hidden state of the encoder.
         """
         x = self.embedding(x)
-        outputs, hidden = self.gru(x, initial_state = initial)
+        outputs, hidden = self.gru(x, initial_state=initial)
         return outputs, hidden
