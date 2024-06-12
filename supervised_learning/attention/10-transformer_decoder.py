@@ -60,13 +60,13 @@ class Decoder(tf.keras.layers.Layer):
         self.dropout = tf.keras.layers.Dropout(drop_rate)
 
     def call(
-            self,
-            x,
-            encoder_output,
-            training,
-            look_ahead_mask,
-            padding_mask
-        ):
+        self,
+        x,
+        encoder_output,
+        training,
+        look_ahead_mask,
+        padding_mask
+    ):
         """
         Performs the forward pass for the decoder.
 
@@ -74,16 +74,16 @@ class Decoder(tf.keras.layers.Layer):
         - x: a tensor of shape (batch, target_seq_len, dm)
           containing the input to the decoder
         - encoder_output: a tensor of shape (batch, input_seq_len, dm)
-          containing the output of the encoder
+        containing the output of the encoder
         - training: a boolean to determine if the model is training
         - look_ahead_mask: the mask to be applied
-          to the first multi head attention layer
+        to the first multi head attention layer
         - padding_mask: the mask to be applied to
-         the second multi head attention layer
+        the second multi head attention layer
 
         Returns:
         - A tensor of shape (batch, target_seq_len, dm)
-         containing the decoder output.
+        containing the decoder output.
         """
         seq_len = tf.shape(x)[1]
         attention_weights = {}
@@ -95,10 +95,12 @@ class Decoder(tf.keras.layers.Layer):
         x = self.dropout(x, training=training)
 
         for i in range(self.N):
-            x, block1, block2 = self.blocksi
+            x, block_attention_weights = self.blocks[i](
+            x, encoder_output, training, look_ahead_mask, padding_mask
+        )
 
-            attention_weights['decoder_layer{}_block1'.format(i+1)] = block1
-            attention_weights['decoder_layer{}_block2'.format(i+1)] = block2
+        attention_weights['decoder_layer{}_block1'.format(i+1)] = block_attention_weights[0]
+        attention_weights['decoder_layer{}_block2'.format(i+1)] = block_attention_weights[1]
 
         # x.shape == (batch_size, target_seq_len, d_model)
         return x, attention_weights
