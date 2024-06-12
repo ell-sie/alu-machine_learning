@@ -28,7 +28,8 @@ class Encoder(tf.keras.layers.Layer):
         - N (int): The number of blocks in the encoder.
         - dm (int): The dimensionality of the model.
         - h (int): The number of heads.
-        - hidden (int): The number of hidden units in the fully connected layer.
+        - hidden (int): The number of hidden units
+         in the fully connected layer.
         - input_vocab (int): The size of the input vocabulary.
         - max_seq_len (int): The maximum sequence length possible.
         - drop_rate (float): The dropout rate.
@@ -63,13 +64,13 @@ class Encoder(tf.keras.layers.Layer):
 
         Parameters:
         - x: a tensor of shape (batch, input_seq_len, dm)
-          containing the input to the encoder
+        containing the input to the encoder
         - training: a boolean to determine if the model is training
-        - mask: the mask to be applied for multi head attention
+        - mask: the mask to be applied for multi-head attention
 
         Returns:
         - A tensor of shape (batch, input_seq_len, dm)
-          containing the encoder output.
+        containing the encoder output.
         """
         seq_len = tf.shape(x)[1]
 
@@ -81,6 +82,6 @@ class Encoder(tf.keras.layers.Layer):
         x = self.dropout(x, training=training)
 
         for i in range(self.N):
-            x = self.blocksi
+            x = self.blocks[i](x, training, mask)
 
         return x  # (batch_size, input_seq_len, dm)
