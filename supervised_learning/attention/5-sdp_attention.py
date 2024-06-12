@@ -4,19 +4,26 @@ A function that calculates the scaled dot product attention.
 """
 import tensorflow as tf
 
+
 def sdp_attention(Q, K, V, mask=None):
     """
     Calculates the scaled dot product attention.
 
     Parameters:
-    - Q: a tensor with its last two dimensions as (..., seq_len_q, dk) containing the query matrix
-    - K: a tensor with its last two dimensions as (..., seq_len_v, dk) containing the key matrix
-    - V: a tensor with its last two dimensions as (..., seq_len_v, dv) containing the value matrix
-    - mask: a tensor that can be broadcast into (..., seq_len_q, seq_len_v) containing the optional mask, or defaulted to None
+    - Q: a tensor with its last two dimensions
+      as (..., seq_len_q, dk) containing the query matrix
+    - K: a tensor with its last two dimensions
+      as (..., seq_len_v, dk) containing the key matrix
+    - V: a tensor with its last two dimensions
+      as (..., seq_len_v, dv) containing the value matrix
+    - mask: a tensor that can be broadcast into
+      (..., seq_len_q, seq_len_v) containing the optional mask, or defaulted to None
 
     Returns:
-    - output: a tensor with its last two dimensions as (..., seq_len_q, dv) containing the scaled dot product attention
-    - weights: a tensor with its last two dimensions as (..., seq_len_q, seq_len_v) containing the attention weights
+    - output: a tensor with its last two dimensions as
+      (..., seq_len_q, dv) containing the scaled dot product attention
+    - weights: a tensor with its last two dimensions as
+      (..., seq_len_q, seq_len_v) containing the attention weights
     """
     matmul_qk = tf.matmul(Q, K, transpose_b=True)
 
@@ -30,8 +37,8 @@ def sdp_attention(Q, K, V, mask=None):
 
     # softmax is normalized on the last axis (seq_len_k) so that the scores
     # add up to 1.
-    attention_weights = tf.nn.softmax(scaled_attention_logits, axis=-1)  # (..., seq_len_q, seq_len_k)
+    attention_weights = tf.nn.softmax(scaled_attention_logits, axis=-1)
 
-    output = tf.matmul(attention_weights, V)  # (..., seq_len_q, depth_v)
+    output = tf.matmul(attention_weights, V)
 
     return output, attention_weights
