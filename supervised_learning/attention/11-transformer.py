@@ -1,104 +1,130 @@
 #!/usr/bin/env python3
 """
-A class Transformer that creates a transformer network.
+Defines a class that inherits from tensorflow.keras.layers.Layer
+to create the decoder for a transformer
 """
+
+
 import tensorflow as tf
+positional_encoding = __import__('4-positional_encoding').positional_encoding
+DecoderBlock = __import__('8-transformer_decoder_block').DecoderBlock
 
 
-Encoder = __import__('9-transformer_encoder').Encoder
-Decoder = __import__('10-transformer_decoder').Decoder
+class Decoder(tf.keras.layers.Layer):
+    """
+    Class to create the decoder for a transformer
 
+    class constructor:
+        def __init__(self, N, dm, h, hidden, target_vocab, max_seq_len,
+                        drop_rate=0.1)
 
-class Transformer(tf.keras.Model):
-    """A class Transformer that creates a transformer network."""
-    def __init__(
-            self,
-            N,
-            dm,
-            h,
-            hidden,
-            input_vocab,
-            target_vocab,
-            max_seq_input,
-            max_seq_target,
-            drop_rate=0.1,
-    ):
+    public instance attribute:
+        N: the number of blocks in the encoder
+        dm: the dimensionality of the model
+        embedding: the embedding layer for the targets
+        positional_encoding [numpy.ndarray of shape (max_seq_len, dm)]:
+            contains the positional encodings
+        blocks [list of length N]:
+            contains all the DecoderBlocks
+        dropout: the dropout layer, to be applied to the positional encodings
+
+    public instance method:
+        def call(self, x, encoder_output, training, look_ahead_mask,
+                    padding_mask):
+            calls the decoder and returns the decoder's output
+    """
+    def __init__(self, N, dm, h, hidden, target_vocab, max_seq_len,
+                 drop_rate=0.1):
         """
-        Initializes a Transformer instance.
+        Class constructor
 
-        Parameters:
-        - N (int): The number of blocks in the encoder and decoder.
-        - dm (int): The dimensionality of the model.
-        - h (int): The number of heads.
-        - hidden (int): The number of hidden units
-          in the fully connected layers.
-        - input_vocab (int): The size of the input vocabulary.
-        - target_vocab (int): The size of the target vocabulary.
-        - max_seq_input (int): The maximum sequence
-          length possible for the input.
-        - max_seq_target (int): The maximum sequence
-          length possible for the target.
-        - drop_rate (float): The dropout rate.
+        parameters:
+            N [int]:
+                represents the number of blocks in the encoder
+            dm [int]:
+                represents the dimensionality of the model
+            h [int]:
+                represents the number of heads
+            hidden [int]:
+                represents the number of hidden units in fully connected layer
+            target_vocab [int]:
+                represents the size of the target vocabulary
+            max_seq_len [int]:
+                represents the maximum sequence length possible
+            drop_rate [float]:
+                the dropout rate
 
-        Sets the following public instance attributes:
-        - encoder: the encoder layer
-        - decoder: the decoder layer
-        - linear: a final Dense layer with target_vocab units
+        sets the public instance attributes:
+            N: the number of blocks in the encoder
+            dm: the dimensionality of the model
+            embedding: the embedding layer for the targets
+            positional_encoding [numpy.ndarray of shape (max_seq_len, dm)]:
+                contains the positional encodings
+            blocks [list of length N]:
+                contains all the DecoderBlocks
+            dropout: the dropout layer,
+                to be applied to the positional encodings
         """
-        super(Transformer, self).__init__()
+        if type(N) is not int:
+            raise TypeError(
+                "N must be int representing number of blocks in the encoder")
+        if type(dm) is not int:
+            raise TypeError(
+                "dm must be int representing dimensionality of model")
+        if type(h) is not int:
+            raise TypeError(
+                "h must be int representing number of heads")
+        if type(hidden) is not int:
+            raise TypeError(
+                "hidden must be int representing number of hidden units")
+        if type(target_vocab) is not int:
+            raise TypeError(
+                "target_vocab must be int representing size of target vocab")
+        if type(max_seq_len) is not int:
+            raise TypeError(
+                "max_seq_len must be int representing max sequence length")
+        if type(drop_rate) is not float:
+            raise TypeError(
+                "drop_rate must be float representing dropout rate")
+        super(Decoder, self).__init__()
+        self.N = N
+        self.dm = dm
+        self.embedding = tf.keras.layers.Embedding(input_dim=target_vocab,
+                                                   output_dim=dm)
+        self.positional_encoding = positional_encoding(max_seq_len, dm)
+        self.blocks = [DecoderBlock(dm, h, hidden, drop_rate)
+                       for block in range(N)]
+        self.dropout = tf.keras.layers.Dropout(drop_rate)
 
-        self.encoder = Encoder(
-            N=N,
-            dm=dm,
-            h=h,
-            hidden=hidden,
-            input_vocab=input_vocab,
-            max_seq_input=max_seq_input,
-            drop_rate=drop_rate,
-        )
-        self.decoder = Decoder(
-            N=N,
-            dm=dm,
-            h=h,
-            hidden=hidden,
-            target_vocab=target_vocab,
-            max_seq_target=max_seq_target,
-            drop_rate=drop_rate,
-        )
-        self.linear = tf.keras.layers.Dense(target_vocab)
-
-    def call(
-            self,
-            inputs,
-            target,
-            training,
-            encoder_mask,
-            look_ahead_mask,
-            decoder_mask
-    ):
+    def call(self, x, encoder_output, training, look_ahead_mask, padding_mask):
         """
-        Performs the forward pass for the transformer.
+        Calls the decoder and returns the decoder's output
 
-        Parameters:
-        - inputs: a tensor of shape (batch, input_seq_len)
-          containing the inputs
-        - target: a tensor of shape (batch, target_seq_len)
-          containing the target
-        - training: a boolean to determine if the model is training
-        - encoder_mask: the padding mask to be applied to the encoder
-        - look_ahead_mask: the look ahead mask to be applied to the decoder
-        - decoder_mask: the padding mask to be applied to the decoder
+        parameters:
+            x [tensor of shape (batch, target_seq_len, dm)]:
+                contains the input to the decoder
+            encoder_output [tensor of shape (batch, input_seq_len, dm)]:
+                contains the output of the encoder
+            training [boolean]:
+                determines if the model is in training
+            look_ahead_mask:
+                mask to be applied to first multi-head attention
+            padding_mask:
+                mask to be applied to second multi-head attention
 
-        Returns:
-        - A tensor of shape (batch, target_seq_len, target_vocab)
-         containing the transformer output.
+        returns:
+            [tensor of shape (batch, target_seq_len, dm)]:
+                contains the decoder output
         """
-        enc_output = self.encoder(inputs, training, encoder_mask)
+        seq_len = x.shape[1]
 
-        # dec_output.shape == (batch, tar_seq_len, dm)
-        dec_output, attention_weights = self.decoder(
-            target, enc_output, training, look_ahead_mask, decoder_mask)
+        x = self.embedding(x)
+        x *= tf.math.sqrt(tf.cast(self.dm, tf.float32))
+        x += self.positional_encoding[:seq_len]
 
-        final_output = self.linear(dec_output)
+        x = self.dropout(x, training=training)
 
-        return final_output, attention_weights
+        for i in range(self.N):
+            x = self.blocks[i](x, encoder_output, training,
+                               look_ahead_mask, padding_mask)
+        return x
