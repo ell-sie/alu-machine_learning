@@ -4,6 +4,7 @@ A function that calculates the positional encoding for a transformer.
 """
 import numpy as np
 
+
 def positional_encoding(max_seq_len, dm):
     """
     Calculates the positional encoding for a transformer.
@@ -20,9 +21,10 @@ def positional_encoding(max_seq_len, dm):
 
     # Calculate the positional encoding
     for pos in range(max_seq_len):
-        for i in range(0, dm, 2):
-            PE[pos, i] = np.sin(pos / (10000 ** ((2 * i) / dm)))
-            if i + 1 < dm:
-                PE[pos, i + 1] = np.cos(pos / (10000 ** ((2 * i) / dm)))
+        for i in range(dm):
+            if i % 2 == 0:
+                PE[pos, i] = np.sin(pos / (10000 ** (i / dm)))
+            else:
+                PE[pos, i] = np.cos(pos / (10000 ** ((i - 1) / dm)))
 
     return PE
