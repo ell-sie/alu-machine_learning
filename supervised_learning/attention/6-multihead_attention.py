@@ -7,6 +7,7 @@ import tensorflow as tf
 
 sdp_attention = __import__('5-sdp_attention').sdp_attention
 
+
 class MultiHeadAttention(tf.keras.layers.Layer):
     """A class MultiHeadAttention that performs multi head attention."""
     def __init__(self, dm, h):
@@ -74,9 +75,9 @@ class MultiHeadAttention(tf.keras.layers.Layer):
 
         scaled_attention = tf.transpose(scaled_attention, perm=[0, 2, 1, 3])
 
-        concat_attention = tf.reshape(scaled_attention, 
+        concat_attention = tf.reshape(scaled_attention,
                                       (batch_size, -1, self.dm))
 
         output = self.linear(concat_attention)  # (batch_size, seq_len_q, dm)
-        
+   
         return output, attention_weights

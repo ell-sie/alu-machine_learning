@@ -17,7 +17,8 @@ def sdp_attention(Q, K, V, mask=None):
     - V: a tensor with its last two dimensions
       as (..., seq_len_v, dv) containing the value matrix
     - mask: a tensor that can be broadcast into
-      (..., seq_len_q, seq_len_v) containing the optional mask, or defaulted to None
+      (..., seq_len_q, seq_len_v) containing the optional
+     mask, or defaulted to None
 
     Returns:
     - output: a tensor with its last two dimensions as
@@ -33,7 +34,7 @@ def sdp_attention(Q, K, V, mask=None):
 
     # add the mask to the scaled tensor.
     if mask is not None:
-        scaled_attention_logits += (mask * -1e9)  
+        scaled_attention_logits += (mask * -1e9)
 
     # softmax is normalized on the last axis (seq_len_k) so that the scores
     # add up to 1.
