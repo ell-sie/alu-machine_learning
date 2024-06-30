@@ -19,9 +19,10 @@ def maximization(X, g):
         probabilities for each data point in each cluster
 
     return:
-        - pi: numpy.ndarray (k,) containing the updated priors for each cluster
-        - m: numpy.ndarray (k, d) containing updated centroid means for each cluster
-        - S: numpy.ndarray (k, d, d) updated covariance matrices for each cluster
+    - pi: numpy.ndarray (k,) containing the updated priors for each cluster
+    - m: numpy.ndarray (k, d) containing updated
+     centroid means for each cluster
+    - S: numpy.ndarray (k, d, d) updated covariance matrices for each cluster
     """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None, None
