@@ -2,8 +2,11 @@
 """
     Creates an autoencoder
 """
+import numpy as np
 import tensorflow.keras as keras
 
+# Set floating-point precision for numpy
+np.set_printoptions(precision=8)
 
 def autoencoder(input_dims, filters, latent_dims):
     """
@@ -48,3 +51,13 @@ def autoencoder(input_dims, filters, latent_dims):
     auto.compile(optimizer='adam', loss='binary_crossentropy')
 
     return encoder, decoder, auto
+
+# Example usage
+input_dims = (28, 28, 1)  # Example input dimensions
+filters = [32, 64, 128]   # Example filter sizes
+latent_dims = (4, 4, 128)  # Example latent dimensions
+
+encoder, decoder, auto = autoencoder(input_dims, filters, latent_dims)
+
+# Check the autoencoder structure
+auto.summary()
