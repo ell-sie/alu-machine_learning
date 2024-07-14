@@ -54,4 +54,3 @@ class BayesianOptimization:
         else:
             y_opt = np.max(self.gp.Y, keepdims=True)
             return self.gp.X[np.argmax(self.gp.Y)], y_opt[0]
-  
